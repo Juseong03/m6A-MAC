@@ -1,0 +1,14 @@
+{
+  "train": "data/train.tsv",
+  "validation": "data/validation.tsv",
+  "encoder_checkpoint": "weights/rinalmo_mega_pretrained.pt",
+  "output": "runs/mac201",
+  "length": 201,
+  "dimension": 128,
+  "seeds": [17, 29, 43, 61, 79],
+  "device": "cuda:0",
+  "epochs": 120,
+  "micro_batch": 8,
+  "learning_rate": 0.0003,
+  "weight_decay": 0.01
+}

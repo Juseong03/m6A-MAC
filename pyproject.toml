@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "m6a-mac"
+version = "0.1.0"
+description = "Frozen RiNALMo with a MAC U-Net for m6A site prediction"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.5,<3", "numpy>=2,<3", "pandas>=2.2,<3", "scikit-learn>=1.5,<2", "einops>=0.8,<1", "ml-collections>=1,<2"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
