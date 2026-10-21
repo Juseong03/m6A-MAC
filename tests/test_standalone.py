@@ -113,8 +113,8 @@ class StandaloneTests(unittest.TestCase):
             root = Path(directory) / 'relocated'
             shutil.copytree(ROOT, root, ignore=shutil.ignore_patterns('.git', '__pycache__', '*.egg-info'))
             (root / 'data').mkdir(exist_ok=True)
-            frame('C').to_csv(root / 'data/train.tsv', sep='\t', index=False)
-            frame('T').to_csv(root / 'data/validation.tsv', sep='\t', index=False)
+            frame('C').to_csv(root / 'data/train.tsv.gz', sep='\t', index=False)
+            frame('T').to_csv(root / 'data/validation.tsv.gz', sep='\t', index=False)
             (root / 'encoder.pt').write_bytes(b'fixture')
             config = json.loads((root / 'configs/train.json').read_text())
             config.update(length=101, encoder_checkpoint='encoder.pt', seeds=[17], device='cpu')

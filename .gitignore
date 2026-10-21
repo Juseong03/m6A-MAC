@@ -12,6 +12,10 @@ dist/
 *.npy
 *.npz
 *.part
-/data/
+/data/*
+!/data/train.tsv.gz
+!/data/validation.tsv.gz
+!/data/test.tsv.gz
+!/data/manifest.json
 /weights/
 /runs/

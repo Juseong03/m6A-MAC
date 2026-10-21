@@ -21,12 +21,15 @@ product attention. A native Mamba installation is required for the MAC head.
 
 Obtain the official RiNALMo-Mega pretrained checkpoint and place it at a location
 you choose. The example configuration uses `weights/rinalmo_mega_pretrained.pt`.
-Data and weights are supplied separately; the code does not download them.
+The processed data are included in this repository. Encoder weights must be
+supplied separately; the code does not download them.
 
 ## Repository structure
 
 ```text
 configs/train.json          Training configuration example
+data/*.tsv.gz               Processed training, validation and test data
+data/manifest.json          Dataset metadata and integrity hashes
 run.py                      Training and inference commands
 src/m6a/models/             MAC U-Net, frozen encoder and input validation
 src/m6a/training/train.py   Training, validation and checkpoint selection
@@ -40,7 +43,33 @@ editable installation. No parent research directory or external symlink is used.
 
 ## Data
 
-Prepare `data/train.tsv` and `data/validation.tsv`. Each tab-separated file needs
+The repository includes the processed m6AConquer HEK293T v2 splits. Each gzip
+archive contains the original TSV bytes, preserving candidate order, labels,
+metadata and all three sequence columns (`seq101`, `seq201`, `seq801`).
+
+| File | Rows | Positive labels | Compressed size |
+| --- | ---: | ---: | ---: |
+| `data/train.tsv.gz` | 157,832 | 36,626 | 11.63 MiB |
+| `data/validation.tsv.gz` | 23,196 | 5,213 | 1.70 MiB |
+| `data/test.tsv.gz` | 46,106 | 10,795 | 3.40 MiB |
+
+The total compressed size is approximately 16.73 MiB. The default configuration
+reads the compressed training and validation files directly with pandas; no
+manual extraction is needed. The test split is provided for separate evaluation
+and is not used by the training command. It is a developmental test, rather than
+an independent confirmatory evaluation. Raw reference genomes, embedding caches
+and pretrained weights are not included.
+
+`data/manifest.json` records row and positive counts, gene counts, exact file
+sizes, and SHA-256 hashes of both the compressed files and the original TSVs.
+Verify the archives from the repository root with:
+
+```bash
+python -c 'import hashlib, json, pathlib; d = pathlib.Path("data"); m = json.loads((d / "manifest.json").read_text()); assert all(hashlib.sha256((d / name).read_bytes()).hexdigest() == info["sha256"] for name, info in m["files"].items()); print("Dataset checksums verified")'
+```
+
+To use your own data, edit the training and validation locations in the config.
+Each tab-separated file needs
 `id`, `label` and `seq201` columns for a 201 nucleotide run. For other supported
 lengths, use `seq101`, `seq401` or `seq801`. Labels are 0 or 1, each split must
 contain both classes, IDs must be unique within a split, and sequences must have

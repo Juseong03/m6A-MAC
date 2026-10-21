@@ -1,0 +1,59 @@
+{
+  "dataset": "m6AConquer HEK293T v2",
+  "format": "gzip-compressed TSV, UTF-8",
+  "compression": {
+    "method": "gzip",
+    "level": 6,
+    "mtime": 0
+  },
+  "columns": [
+    "id",
+    "gene",
+    "transcript",
+    "transcript_offset0",
+    "label",
+    "split",
+    "support_technique",
+    "seq101",
+    "seq201",
+    "seq801"
+  ],
+  "split_policy": "Remove every exact101nt sequence occurring in multiple partitions, including all its occurrences; preserve gene assignment. No prediction-based filtering.",
+  "interpretation": {
+    "test": "Developmental test; not an independent confirmatory evaluation.",
+    "labels": "Published labels preserved; no relabeling or new splitting.",
+    "pretraining_overlap": "Independence from encoder pretraining data is not established."
+  },
+  "files": {
+    "train.tsv.gz": {
+      "split": "train",
+      "rows": 157832,
+      "positive": 36626,
+      "genes": 8382,
+      "compressed_bytes": 12198862,
+      "uncompressed_bytes": 185509114,
+      "sha256": "63af15f1a363e5495cdc4d86b8ece3838eda92d654c55776f19f664a1297a063",
+      "uncompressed_sha256": "59a7d76af2984ec7f31c919193999839e237842f36eca1a021511a5084215556"
+    },
+    "validation.tsv.gz": {
+      "split": "validation",
+      "rows": 23196,
+      "positive": 5213,
+      "genes": 1228,
+      "compressed_bytes": 1782331,
+      "uncompressed_bytes": 27389810,
+      "sha256": "895aa4eff58a8aba6f62b5dc73ccf37de0bfc869d51b1cc9a067028a9e561c24",
+      "uncompressed_sha256": "f4722c65c905f727d9e7d7b2cbe1612b4502719015ee2433667ccdebb689dc19"
+    },
+    "test.tsv.gz": {
+      "split": "test",
+      "rows": 46106,
+      "positive": 10795,
+      "genes": 2454,
+      "compressed_bytes": 3565106,
+      "uncompressed_bytes": 54149366,
+      "sha256": "8d0aa323995836124167819996eaa740de08b6aa30fefb467029ab81fcf1cecc",
+      "uncompressed_sha256": "8ad019488b1a9eab2b0f15634657224f8950ad45fbbfccf44aeac5c74f5ba0c5"
+    }
+  }
+}
