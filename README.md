@@ -35,6 +35,9 @@ src/m6a/models/             MAC U-Net, frozen encoder and input validation
 src/m6a/training/train.py   Training, validation and checkpoint selection
 tests/                      Model, data and portability tests
 licenses/                   Third party attribution
+paper_data/                 Predictions, results and figure values supporting the paper
+LICENSE                     MIT licence for the code
+DATA_SOURCES.md             Data provenance and terms
 ```
 
 All example file locations are relative to the current working directory.
@@ -71,12 +74,12 @@ python -c 'import hashlib, json, pathlib; d = pathlib.Path("data"); m = json.loa
 To use your own data, edit the training and validation locations in the config.
 Each tab-separated file needs
 `id`, `label` and `seq201` columns for a 201 nucleotide run. For other supported
-lengths, use `seq101`, `seq401` or `seq801`. Labels are 0 or 1, each split must
+lengths, use `seq41`, `seq101`, `seq401` or `seq801`. Labels are 0 or 1, each split must
 contain both classes, IDs must be unique within a split, and sequences must have
 exactly the selected length with A at the central position. Lowercase and U are
 normalized to uppercase and T. Ambiguous bases and implicit padding are rejected.
-If `seq401` is absent, it can be derived from the exact center of `seq801` before
-encoding.
+If `seq41` or `seq401` is absent, it is derived from the exact center of `seq801`
+before encoding; each length is encoded independently, not cropped from 801-nt states.
 
 Training and validation must have disjoint IDs and exact input sequences. When
 both files include a `gene` column, gene overlap is rejected as well. Supply
@@ -162,3 +165,9 @@ RiNALMo is an external dependency from the
 license is retained in `licenses/RiNALMo.LICENSE`. See `licenses/NOTICE.md` for
 implementation attribution. This repository does not assign a new license to
 third party work.
+
+## Licence
+
+The code is released under the MIT licence (`LICENSE`). Files in `paper_data/` created in this study are released
+under CC BY 4.0 (`paper_data/LICENSE`). Data derived from m6AConquer and GEO remain subject to their sources' terms;
+see `DATA_SOURCES.md`. RiNALMo is a separate Apache-2.0 dependency whose weights are not included.

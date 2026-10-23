@@ -422,7 +422,7 @@ class FrozenMACHead(nn.Module):
     def __init__(self, length, input_dim=640, dimension=128, topology='unet',
                  use_skips=True, block_factory=None):
         super().__init__()
-        if length not in (101, 201, 401, 801) or dimension <= 0 or dimension % 8:
+        if length not in (41, 101, 201, 401, 801) or dimension <= 0 or dimension % 8:
             raise ValueError('Supported odd length and width divisible by eight required')
         if topology not in ('unet', 'flat', 'pooling') or type(use_skips) is not bool:
             raise ValueError('Invalid topology or skip policy')

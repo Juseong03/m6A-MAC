@@ -129,6 +129,18 @@ class StandaloneTests(unittest.TestCase):
                                         capture_output=True, text=True)
                 self.assertEqual(result.returncode, 0, result.stderr)
 
+    def test_41nt_head_and_centred_window(self):
+        model = fake_model(length=41, dimension=8, device='cpu', encoder_checkpoint='unused')
+        logits = model.forward_logits(['C' * 20 + 'A' + 'G' * 20, 'U' * 20 + 'A' + 'C' * 20])
+        self.assertEqual(tuple(logits.shape), (2,))
+        long = ['C' * 380 + 'G' * 20 + 'A' + 'T' * 20 + 'C' * 380, 'G' * 400 + 'A' + 'C' * 400]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'split.tsv'
+            pd.DataFrame({'id': ['a', 'b'], 'label': [0, 1], 'seq801': long}).to_csv(path, sep='\t', index=False)
+            loaded = load_split(path, 41)
+        self.assertEqual(loaded.seq41.tolist(), [s[380:421] for s in long])
+        self.assertTrue(all(s[20] == 'A' for s in loaded.seq41))
+
     def test_config_rejects_invalid_hyperparameters(self):
         base = json.loads((ROOT / 'configs/train.json').read_text())
         with tempfile.TemporaryDirectory() as directory:

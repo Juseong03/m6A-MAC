@@ -6,8 +6,8 @@ import torch
 from torch import nn
 
 def validate_length(length):
-    if type(length) is not int or length not in (101, 201, 401, 801):
-        raise ValueError('length must be one of 101, 201, 401, 801')
+    if type(length) is not int or length not in (41, 101, 201, 401, 801):
+        raise ValueError('length must be one of 41, 101, 201, 401, 801')
     return length
 
 
@@ -51,7 +51,7 @@ def run_cli(model_class):
     parser = argparse.ArgumentParser(description=model_class.__doc__)
     parser.add_argument('--encoder-checkpoint', type=Path, required=True)
     parser.add_argument('--dimension', type=int, default=128)
-    parser.add_argument('--length', type=int, choices=(101, 201, 401, 801), default=101)
+    parser.add_argument('--length', type=int, choices=(41, 101, 201, 401, 801), default=101)
     parser.add_argument('--sequence', nargs='+', help='Exact-length central-A sequences')
     parser.add_argument('--checkpoint', type=Path)
     parser.add_argument('--device', default='cuda:0' if torch.cuda.is_available() else 'cpu')

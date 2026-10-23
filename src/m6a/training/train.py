@@ -21,9 +21,11 @@ def sha256(path):
 def load_split(path, length):
     frame = pd.read_csv(path, sep='\t', dtype={'id': str})
     required = {'id', 'label', f'seq{length}'}
-    if length == 401 and 'seq401' not in frame and 'seq801' in frame:
+    if length in (41, 401) and f'seq{length}' not in frame and 'seq801' in frame:
+        # 41- and 401-nt windows are the centred slices of the stored 801-nt window.
         long = normalize_sequences(frame.seq801.tolist(), 801)
-        frame['seq401'] = [sequence[200:601] for sequence in long]
+        start = (801 - length) // 2
+        frame[f'seq{length}'] = [sequence[start:start + length] for sequence in long]
     if not required.issubset(frame):
         raise ValueError('Required TSV columns: ' + ', '.join(sorted(required)))
     if frame.empty or frame.id.isna().any() or frame.id.duplicated().any():
